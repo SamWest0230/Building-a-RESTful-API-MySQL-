@@ -1,0 +1,32 @@
+.app{
+  display: flex;
+  flex-direction: column;
+
+  &__title{
+    text-align: center;
+  }
+
+  &__all{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    &--button{
+      align-self: center;
+      width: 30%;
+    }
+
+  }
+
+  &__games{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5rem;
+
+    &--div{
+      padding: 1rem 1rem;
+      margin: 1rem 1rem;
+    }
+  }
+
+}
