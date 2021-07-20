@@ -1,7 +1,7 @@
 import React from "react"
 import './App.scss'
 import axios from 'axios'
-const url = process.env.REACT_APP_URL
+const url = 'http://localhost:8080'
 
 class App extends React.Component {
   state = {
@@ -17,11 +17,13 @@ class App extends React.Component {
     }
 
     get = () => {
+      console.log(process.env)
       axios
-      .get(url + '/')
+      .get(url + '/games')
       .then(response => {
+        console.log(response.data)
         this.setState({
-          games: response
+          games: response.data
         })
       })
       .catch((err) => {
@@ -41,13 +43,14 @@ class App extends React.Component {
         </div>
 
         <div className='app__games'>
-          {this.state.games.forEach(game => {
+          {this.state.games.map(game => {
+            console.log(game)
             return(
               <div className='app__games--div'> 
-                <h1>{game.name}</h1>
-                <h2>{game.platform}</h2>
-                <h3>{game.date}</h3>
-                <h4>{game.id}</h4>
+                <h1>Name: {game.name}</h1>
+                <h2>Platform: {game.platforms}</h2>
+                <h3>Genere: {game.genere}</h3>
+                <h4>ID: {game.id}</h4>
               </div>
             )
           })}
