@@ -28,8 +28,12 @@ db.query("SELECT * FROM games", (err, results, fields) => {
   });
   
  
-  router.get("", (req, res) => {
-   
+  router.get("/:name", (req, res) => {
+    const name = req.params.name;
+    db.query("SELECT * FROM games WHERE name=?", req.params.name, (err, results, fields) => {
+      if(err) throw err;
+      res.send(results)
+    })
   });
   
 

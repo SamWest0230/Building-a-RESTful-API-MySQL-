@@ -6,6 +6,9 @@ const url = 'http://localhost:8080'
 class App extends React.Component {
   state = {
    games: [],
+   specificGame: {},
+   name: null,
+   id: null,
 
 }
 
@@ -29,6 +32,21 @@ class App extends React.Component {
       .catch((err) => {
         console.log(err);
       })
+    }
+    handleSubmit = (event) => {
+      event.preventDefault();
+      const name = this.state.name
+    axios
+    .get(url + '/games' + '/' + name)
+    .then(response => {
+      console.log(response.data)
+      this.setState({
+        specificGame: response.data
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     }
 
 
@@ -71,11 +89,20 @@ class App extends React.Component {
 
         <div className='app__find'>
           <h2>Find Game</h2>
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <label>Name of Game</label>
-            <input type='text' name='name'></input>
-            <button>Find</button>
+            <input type='text' name='name' onChange={this.handleChange}></input>
+            <button type='submit'>Find</button>
           </form>
+        </div>
+        <div className='app__games--div'> 
+          <div>
+                <h1>Name: {this.state.specificGame.name}</h1>
+                <h2>Platform: {this.state.specificGame.platforms}</h2>
+                <h3>Genere: {this.state.specificGame.genere}</h3>
+                <h4>ID: {this.state.specificGame.id}</h4>
+         </div>
+
         </div>
 
         <div className='app__delete'>
