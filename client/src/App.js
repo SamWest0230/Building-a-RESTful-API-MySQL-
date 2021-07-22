@@ -5,23 +5,23 @@ const url = 'http://localhost:8080'
 
 class App extends React.Component {
   state = {
-   games: [],
-   specificGame: {},
-   name: null,
-   id: null,
-   nameAdd: null,
-   platform: null,
-   genere: null,
-}
+    games: [],
+    specificGame: {},
+    name: null,
+    id: null,
+    nameAdd: null,
+    platform: null,
+    genere: null,
+  }
 
   handleChange = (e) => {
-      this.setState({
-        [e.target.name]: e.target.value
-      })
-    }
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
 
-    get = () => {
-      axios
+  get = () => {
+    axios
       .get(url + '/games')
       .then(response => {
         this.setState({
@@ -31,45 +31,58 @@ class App extends React.Component {
       .catch((err) => {
         console.log(err);
       })
-    }
+  }
 
-    add = (event) => {
-      event.preventDefault();
-      const newGame = {
-        name: this.state.nameAdd,
-        platform: this.state.platform,
-        genere: this.state.genere,
-      }
-      axios
+  add = (event) => {
+    event.preventDefault();
+    const newGame = {
+      name: this.state.nameAdd,
+      platform: this.state.platform,
+      genere: this.state.genere,
+    }
+    axios
       .post(url + '/games' + '/add', newGame)
       .then(response => {
-        window.alert('Game added!')
+
       })
       .catch((err) => {
         console.log(err);
       })
-    }
+  }
 
-    handleSubmit = (event) => {
-      event.preventDefault();
-      const name = this.state.name
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const name = this.state.name
     axios
-    .get(url + '/games' + '/' + name)
-    .then(response => {
-      console.log(response.data)
-      this.setState({
-        specificGame: response.data[0]
+      .get(url + '/games' + '/' + name)
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          specificGame: response.data[0]
+        })
       })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  delete = (event) => {
+    event.preventDefault();
+    const id = this.state.id
+    axios
+      .delete(url + '/games' + '/delete' + id)
+      .then(response => {
+        window.alert('game removed')
+          .catch((err) => {
+            console.log(err);
+          })
+      })
     }
 
 
   render() {
-    return (
-      <div className="app">
+        return(
+      <div className = "app" >
         <h1 className='app__title'>Test API</h1>
 
         <div className='app__all'>
@@ -124,10 +137,10 @@ class App extends React.Component {
 
         <div className='app__delete'>
           <h2> Delete Game</h2>
-          <form>
+          <form onSubmit={this.delete}>
             <label>Game ID</label>
-            <input type='number' name='id'></input>
-            <button>Delete</button>
+            <input type='number' name='id' onChange={this.handleChange}></input>
+            <button type='submit'>Delete</button>
           </form>
         </div>
 

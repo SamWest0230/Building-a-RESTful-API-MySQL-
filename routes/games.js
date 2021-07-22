@@ -29,7 +29,6 @@ db.query("SELECT * FROM games", (err, results, fields) => {
   
  
   router.get("/:name", (req, res) => {
-    const name = req.params.name;
     db.query("SELECT * FROM games WHERE name=?", req.params.name, (err, results, fields) => {
       if(err) throw err;
       res.send(results)
@@ -49,8 +48,11 @@ db.query("SELECT * FROM games", (err, results, fields) => {
     })
   })
   
-  router.delete("", (req, res) => {
-  
+  router.delete("/delete:id", (req, res) => {
+    db.query(" DELETE FROM games WHERE id=?", req.params.id, (err, results, fields) => {
+      if(err) throw err;
+      res.send(results)
+    })
     res.send();
   })
 
