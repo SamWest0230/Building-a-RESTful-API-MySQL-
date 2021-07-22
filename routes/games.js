@@ -35,19 +35,20 @@ db.query("SELECT * FROM games", (err, results, fields) => {
       res.send(results)
     })
   });
-  
 
-  router.post("", (req,res) => {
-    res.send("");
+  router.post("/add", (req, res) => {
+    const game = {
+      id: 5,
+      name:req.body.name,
+      platforms: req.body.platform,
+      genere: req.body.genere
+    }
+    db.query("INSERT INTO games SET ?", game, (err, results, fields) => {
+      if(err) throw err;
+      res.send(results)
+    })
   })
   
-
-  router.put("", (req, res) => {
-    
-    res.send("")
-  });
-  
- 
   router.delete("", (req, res) => {
   
     res.send();

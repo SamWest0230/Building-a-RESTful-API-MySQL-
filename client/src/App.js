@@ -9,22 +9,21 @@ class App extends React.Component {
    specificGame: {},
    name: null,
    id: null,
-
+   nameAdd: null,
+   platform: null,
+   genere: null,
 }
 
   handleChange = (e) => {
-    console.log(e.target.value)
       this.setState({
         [e.target.name]: e.target.value
       })
     }
 
     get = () => {
-      console.log(process.env)
       axios
       .get(url + '/games')
       .then(response => {
-        console.log(response.data)
         this.setState({
           games: response.data
         })
@@ -33,6 +32,24 @@ class App extends React.Component {
         console.log(err);
       })
     }
+
+    add = (event) => {
+      event.preventDefault();
+      const newGame = {
+        name: this.state.nameAdd,
+        platform: this.state.platform,
+        genere: this.state.genere,
+      }
+      axios
+      .post(url + '/games' + '/add', newGame)
+      .then(response => {
+        window.alert('Game added!')
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+
     handleSubmit = (event) => {
       event.preventDefault();
       const name = this.state.name
@@ -41,7 +58,7 @@ class App extends React.Component {
     .then(response => {
       console.log(response.data)
       this.setState({
-        specificGame: response.data
+        specificGame: response.data[0]
       })
     })
     .catch((err) => {
@@ -76,14 +93,14 @@ class App extends React.Component {
 
         <div className='app__add'>
           <h2>Add Game</h2>
-          <form>
+          <form onSubmit={this.add}>
             <label>Name of Game</label>
-            <input type='text' name='name'></input>
+            <input type='text' name='nameAdd' onChange={this.handleChange}></input>
             <label>Platform</label>
-            <input type='text' name='platform'></input>
-            <label>Release Date</label>
-            <input type='date' name='date'></input>
-            <button>Add</button>
+            <input type='text' name='platform' onChange={this.handleChange}></input>
+            <label>Genere</label>
+            <input type='text' name='genere' onChange={this.handleChange}></input>
+            <button type='submit'>Add</button>
           </form>
         </div>
 
